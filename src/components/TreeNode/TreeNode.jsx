@@ -3,7 +3,6 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {
   AiFillCaretRight,
   AiFillCaretDown,
@@ -170,20 +169,26 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
     </span>
   );
 
+  // 'TreeNode__no-checkbox': !showCheckbox,
+  // TreeNode__folder: isFolder,
+  // TreeNode__file: !isFolder,
+  // TreeNode__selected: isSelected,
+  // TreeNode__editing: isEditing,
+  // TreeNode__open: isOpen,
+  // TreeNode__root: level === 0,
+  // TreeNode__top: level === 1,
+  // [`TreeNode__level-${level}`]: true,
+
   return (
     <>
       <div
-        className={classNames('TreeNode', {
-          'TreeNode__no-checkbox': !showCheckbox,
-          TreeNode__folder: isFolder,
-          TreeNode__file: !isFolder,
-          TreeNode__selected: isSelected,
-          TreeNode__editing: isEditing,
-          TreeNode__open: isOpen,
-          TreeNode__root: level === 0,
-          TreeNode__top: level === 1,
-          [`TreeNode__level-${level}`]: true,
-        })}
+        className={`TreeNode ${
+          isFolder ? 'TreeNode__folder' : 'TreeNode__file'
+        } ${isSelected ? 'TreeNode__selected' : ''} ${
+          isEditing ? 'TreeNode__editing' : ''
+        } ${isOpen ? 'TreeNode__open' : ''} ${
+          level === 0 ? 'TreeNode__root' : ''
+        } ${level === 1 ? 'TreeNode__top' : ''} TreeNode__level-${level}`}
         style={treeNodeStyle}
       >
         {showCheckbox && (
