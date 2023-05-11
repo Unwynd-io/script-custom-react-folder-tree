@@ -8,10 +8,10 @@ const SandBox = () => {
   return (
     <div className='demo-sandbox'>
       <FolderTree
-        data={ testData }
-        onChange={ onTreeStateChange }
+        data={testData}
+        onChange={onTreeStateChange}
         readOnly
-        // showCheckbox={ false }
+        showCheckbox={false}
       />
     </div>
   );
