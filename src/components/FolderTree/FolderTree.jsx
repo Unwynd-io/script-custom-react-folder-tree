@@ -14,12 +14,14 @@ import './FolderTree.scss';
 
 const FolderTree = ({
   data,
-  onChange = console.log,   // eslint-disable-line
+  onChange = console.log, // eslint-disable-line
   initCheckedStatus = 'unchecked',
   initOpenStatus = 'open',
   iconComponents = {},
   showCheckbox = true,
   indentPixels = 30,
+  iconSize = 20,
+  offsetToggleIcon = false,
   onNameClick = null,
   readOnly = false,
 }) => {
@@ -28,13 +30,7 @@ const FolderTree = ({
     initOpenStatus,
   };
   const { treeState, reducers } = useTreeState({ data, options, onChange });
-  const {
-    checkNode,
-    renameNode,
-    deleteNode,
-    addNode,
-    toggleOpen,
-  } = reducers;
+  const { checkNode, renameNode, deleteNode, addNode, toggleOpen } = reducers;
 
   if (!treeState) return null;
 
@@ -48,6 +44,8 @@ const FolderTree = ({
 
     iconComponents,
     indentPixels,
+    iconSize,
+    offsetToggleIcon,
     showCheckbox,
     readOnly,
   };
@@ -58,14 +56,8 @@ const FolderTree = ({
                                                                                         ---------- */
   return (
     <div className='FolderTree'>
-      <ConfigContext.Provider
-        value={ configs }
-      >
-        <TreeNode
-          key={ treeState._id }
-          path={ [] }
-          { ...treeState }
-        />
+      <ConfigContext.Provider value={configs}>
+        <TreeNode key={treeState._id} path={[]} {...treeState} />
       </ConfigContext.Provider>
     </div>
   );
@@ -90,6 +82,8 @@ FolderTree.propTypes = {
     CaretDownIcon: PropTypes.func,
   }),
   indentPixels: PropTypes.number,
+  iconSize: PropTypes.number,
+  offsetToggleIcon: PropTypes.bool,
   onNameClick: PropTypes.func,
   showCheckbox: PropTypes.bool,
   readOnly: PropTypes.bool,

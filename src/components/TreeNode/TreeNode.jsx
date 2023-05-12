@@ -44,6 +44,8 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
 
     iconComponents,
     indentPixels,
+    iconSize,
+    offsetToggleIcon,
     onNameClick,
     showCheckbox,
     readOnly,
@@ -53,8 +55,11 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
 
   const level = path.length;
 
+  const offsetSize = !isFolder ? 0 : iconSize;
+  const offsetDiff = offsetToggleIcon ? offsetSize : 0;
+
   const treeNodeStyle = {
-    marginLeft: level * indentPixels,
+    marginLeft: level * indentPixels - offsetDiff,
   };
 
   const [isSelected, setIsSelected] = useState(false);
