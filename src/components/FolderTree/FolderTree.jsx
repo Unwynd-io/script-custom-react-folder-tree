@@ -24,6 +24,7 @@ const FolderTree = ({
   offsetToggleIcon = false,
   onNameClick = null,
   readOnly = false,
+  debug = false,
 }) => {
   const options = {
     initCheckedStatus,
@@ -48,6 +49,7 @@ const FolderTree = ({
     offsetToggleIcon,
     showCheckbox,
     readOnly,
+    debug,
   };
 
   /* ----------
@@ -87,6 +89,7 @@ FolderTree.propTypes = {
   onNameClick: PropTypes.func,
   showCheckbox: PropTypes.bool,
   readOnly: PropTypes.bool,
+  debug: PropTypes.bool,
 };
 
 export {

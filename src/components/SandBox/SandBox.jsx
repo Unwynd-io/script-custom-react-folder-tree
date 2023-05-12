@@ -12,8 +12,9 @@ const SandBox = () => {
         onChange={onTreeStateChange}
         readOnly
         showCheckbox={false}
-        // offsetToggleIcon={true}
-        // indentPixels={20}
+        offsetToggleIcon={true}
+        indentPixels={20}
+        debug={true}
       />
     </div>
   );

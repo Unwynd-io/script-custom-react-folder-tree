@@ -8,6 +8,9 @@ export interface FolderTreeProps {
   data: NodeData;
   iconComponents?: IconComponents;
   indentPixels?: number;
+  offsetToggleIcon?: boolean;
+  iconSize?: number;
+  debug?: boolean;
   initCheckedStatus?: CheckedStatus;
   initOpenStatus?: OpenStatus;
   onChange?: OnChange;

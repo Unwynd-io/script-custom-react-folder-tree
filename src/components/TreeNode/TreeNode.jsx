@@ -49,6 +49,8 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
     onNameClick,
     showCheckbox,
     readOnly,
+
+    debug,
   } = useContext(ConfigContext);
 
   const isFolder = !!children;
@@ -61,6 +63,23 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
   const treeNodeStyle = {
     marginLeft: level * indentPixels - offsetDiff,
   };
+
+  if (debug) {
+    console.log('----');
+    console.log({
+      name,
+      level,
+      isFolder,
+      marginLeft: treeNodeStyle.marginLeft,
+    });
+    console.log({
+      indentPixels,
+      iconSize,
+      offsetDiff,
+      offsetSize,
+      offsetToggleIcon,
+    });
+  }
 
   const [isSelected, setIsSelected] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
