@@ -14,10 +14,10 @@ const EditableName = ({
   CancelIcon,
   nodeData,
 }) => {
-  const { name } = nodeData;
+  const { name, showSearchData, matchCount } = nodeData;
   const [inputVal, setInputVal] = useState(name);
 
-  const onInputChange = e => setInputVal(e.target.value);
+  const onInputChange = (e) => setInputVal(e.target.value);
 
   const cancelEditing = () => {
     setInputVal(name);
@@ -31,21 +31,17 @@ const EditableName = ({
 
   const editingName = (
     <span className='editingName'>
-      <input
-        type='text'
-        value={ inputVal }
-        onChange={ onInputChange }
-      />
-      <span className={ iconContainerClassName('editableNameToolbar') }>
+      <input type='text' value={inputVal} onChange={onInputChange} />
+      <span className={iconContainerClassName('editableNameToolbar')}>
         <OKIcon
-          className={ iconClassName('OKIcon') }
-          onClick={ handleNameChange }
-          nodeData={ nodeData }
+          className={iconClassName('OKIcon')}
+          onClick={handleNameChange}
+          nodeData={nodeData}
         />
         <CancelIcon
-          className={ iconClassName('CancelIcon') }
-          onClick={ cancelEditing }
-          nodeData={ nodeData }
+          className={iconClassName('CancelIcon')}
+          onClick={cancelEditing}
+          nodeData={nodeData}
         />
       </span>
     </span>
@@ -53,7 +49,15 @@ const EditableName = ({
 
   const displayName = (
     <span className='displayName'>
-      { name }
+      {name}
+      {showSearchData && typeof matchCount === 'number' && matchCount > 0 && (
+        <span className='displayName__match-counter'>
+          {' '}
+          {'('}
+          {matchCount}
+          {')'}
+        </span>
+      )}
     </span>
   );
 

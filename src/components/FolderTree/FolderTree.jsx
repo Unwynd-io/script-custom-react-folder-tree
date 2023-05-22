@@ -25,6 +25,8 @@ const FolderTree = ({
   onNameClick = null,
   readOnly = false,
   debug = false,
+  searchData = null,
+  showSearchData = false,
 }) => {
   const options = {
     initCheckedStatus,
@@ -50,12 +52,19 @@ const FolderTree = ({
     showCheckbox,
     readOnly,
     debug,
+    searchData,
+    showSearchData,
   };
 
   /* ----------
     - custom configs are passed down in context, which is same for each tree node
     - tree node specific data is passed recursively to each node, which is different for each node
                                                                                         ---------- */
+
+  if (debug) {
+    console.log('tree state: ', treeState);
+  }
+
   return (
     <div className='FolderTree'>
       <ConfigContext.Provider value={configs}>
@@ -90,6 +99,8 @@ FolderTree.propTypes = {
   showCheckbox: PropTypes.bool,
   readOnly: PropTypes.bool,
   debug: PropTypes.bool,
+  searchData: PropTypes.object,
+  showSearchData: PropTypes.bool,
 };
 
 export {

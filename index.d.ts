@@ -4,6 +4,19 @@ type Checked = 0 | 0.5 | 1;
 
 type CheckedStatus = 'checked' | 'custom' | 'unchecked';
 
+type SearchDataProp = {
+  folders: {
+    [key: string]: number;
+  };
+  files: {
+    [key: string]: {
+      allMatchesArray: any[];
+      matchCount: number;
+      matches: any;
+    };
+  };
+};
+
 export interface FolderTreeProps {
   data: NodeData;
   iconComponents?: IconComponents;
@@ -17,6 +30,8 @@ export interface FolderTreeProps {
   onNameClick?: OnNameClick;
   readOnly?: boolean;
   showCheckbox?: boolean;
+  searchData: SearchDataProp;
+  showSearchData?: boolean;
 }
 
 export type Icon = React.FunctionComponent<IconProps>;
@@ -43,6 +58,10 @@ export interface NodeData {
   children?: Array<NodeData>;
   isOpen?: boolean;
   name: string;
+  fileID?: string;
+  folderID?: string;
+  matchCount?: number;
+  showSearchData?: boolean;
   [key: string]: any;
 }
 

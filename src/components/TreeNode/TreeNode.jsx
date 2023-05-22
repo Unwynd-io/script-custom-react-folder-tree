@@ -26,15 +26,16 @@ import {
   getDefaultIcon,
 } from '../../utils/iconUtils';
 
-const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
-  const nodeData = {
-    path,
-    name,
-    checked,
-    isOpen,
-    ...restData,
-  };
-
+const TreeNode = ({
+  path,
+  name,
+  checked,
+  isOpen,
+  children,
+  fileID,
+  folderID,
+  ...restData
+}) => {
   const {
     handleCheck,
     handleRename,
@@ -50,10 +51,33 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
     showCheckbox,
     readOnly,
 
+    searchData,
+    showSearchData,
+
     debug,
   } = useContext(ConfigContext);
 
   const isFolder = !!children;
+
+  let matchCount = 0;
+
+  if (showSearchData && !!searchData) {
+    matchCount = isFolder
+      ? searchData.folders?.[folderID]
+      : searchData.files?.[fileID]?.matchCount;
+  }
+
+  const nodeData = {
+    path,
+    name,
+    checked,
+    isOpen,
+    fileID,
+    folderID,
+    matchCount,
+    showSearchData,
+    ...restData,
+  };
 
   const level = path.length;
 
@@ -70,6 +94,9 @@ const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
       name,
       level,
       isFolder,
+      folderID,
+      fileID,
+      matchCount,
       marginLeft: treeNodeStyle.marginLeft,
     });
     console.log({
