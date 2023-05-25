@@ -48,6 +48,7 @@ const TreeNode = ({
     iconSize,
     offsetToggleIcon,
     onNameClick,
+    onIconClick,
     showCheckbox,
     readOnly,
 
@@ -167,6 +168,17 @@ const TreeNode = ({
     }
   };
 
+  const handleIconClick = (e) => {
+    if (debug) {
+      console.log('---');
+      console.log('Clicked on icon');
+      console.log('e', e);
+      console.log('nodeData: ', nodeData);
+      console.log('---');
+    }
+    onIconClick?.(e, nodeData);
+  };
+
   const TreeNodeToolBar = (
     <span className={iconContainerClassName('TreeNodeToolBar')}>
       <EditIcon
@@ -248,7 +260,10 @@ const TreeNode = ({
 
         {isFolder && folderCaret}
 
-        <span className={iconContainerClassName('typeIconContainer')}>
+        <span
+          className={iconContainerClassName('typeIconContainer')}
+          onClick={handleIconClick}
+        >
           <TypeIcon
             className={iconClassName(TypeIconType)}
             onClick={selectMe}

@@ -28,6 +28,7 @@ export interface FolderTreeProps {
   initOpenStatus?: OpenStatus;
   onChange?: OnChange;
   onNameClick?: OnNameClick;
+  onIconClick?: (event: MouseEvent, nodeData: NodeData) => void;
   readOnly?: boolean;
   showCheckbox?: boolean;
   searchData: SearchDataProp;
