@@ -81,6 +81,13 @@ const SandBox = () => {
         <FolderTree
           data={tree}
           onChange={onTreeStateChange}
+          onIconClick={(e, nodeData) => {
+            console.log('INSIDE ICON CLICK', e, nodeData);
+            console.log(
+              'event target postion',
+              e.target.getBoundingClientRect()
+            );
+          }}
           readOnly
           showCheckbox={false}
           offsetToggleIcon={true}

@@ -23,6 +23,7 @@ const FolderTree = ({
   iconSize = 20,
   offsetToggleIcon = false,
   onNameClick = null,
+  onIconClick = null,
   readOnly = false,
   debug = false,
   searchData = null,
@@ -44,6 +45,7 @@ const FolderTree = ({
     handleAddNode: addNode,
     handleToggleOpen: toggleOpen,
     onNameClick,
+    onIconClick,
 
     iconComponents,
     indentPixels,
@@ -96,6 +98,7 @@ FolderTree.propTypes = {
   iconSize: PropTypes.number,
   offsetToggleIcon: PropTypes.bool,
   onNameClick: PropTypes.func,
+  onIconClick: PropTypes.func,
   showCheckbox: PropTypes.bool,
   readOnly: PropTypes.bool,
   debug: PropTypes.bool,
