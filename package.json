@@ -43,7 +43,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "prebuild": "del \"dist/\"",
+    "prebuild": "rimraf dist",
     "build": "webpack --config config/webpack.prod.config.js",
     "start": "cross-env NODE_ENV=development node scripts/dev-server.js",
     "lint": "eslint src/ --ext .js,.jsx",
@@ -99,10 +99,14 @@
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17",
-    "react-dom": "^16.8.0 || ^17"
+    "react-dom": "^16.8.0 || ^17",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-icons": "^4.1.0",
     "use-tree-state": "1.0.0"
   }

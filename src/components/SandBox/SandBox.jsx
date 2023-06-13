@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import FolderTree, { testData } from '../FolderTree/FolderTree';
 
 const makeId = (length) => {
@@ -63,7 +64,7 @@ const parseTestData = (node) => {
 };
 
 /* eslint-disable */
-const SandBox = () => {
+const SandBox = ({ dndConfig }) => {
   const onTreeStateChange = (state, e) => console.log({ state, e });
   const [tree, setTree] = useState(null);
 
@@ -79,6 +80,7 @@ const SandBox = () => {
     !!tree && (
       <div className='demo-sandbox'>
         <FolderTree
+          dndConfig={dndConfig}
           data={tree}
           onChange={onTreeStateChange}
           onIconClick={(e, nodeData) => {
@@ -108,6 +110,13 @@ const SandBox = () => {
       </div>
     )
   );
+};
+
+SandBox.propTypes = {
+  dndConfig: PropTypes.shape({
+    backend: PropTypes.func,
+    onDrop: PropTypes.func,
+  }),
 };
 
 export default SandBox;
