@@ -20,6 +20,10 @@ module.exports = {
   resolve: {
     // our code can resolve 'xxx' instead of writing 'xxx.jsx'
     extensions: ['*', '.js', '.jsx'],
+    fallback: {
+      'react/jsx-runtime': 'react/jsx-runtime.js',
+      'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+    },
   },
   module: {
     // For every file that match regex in 'test', webpack pipes the code through to loaders
