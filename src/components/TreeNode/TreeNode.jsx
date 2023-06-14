@@ -54,13 +54,15 @@ const TreeNode = ({
     onIconClick,
     showCheckbox,
     readOnly,
-    dndConfig: { onDrop },
+    dndConfig,
 
     searchData,
     showSearchData,
 
     debug,
   } = useContext(ConfigContext);
+
+  const { onDrop } = dndConfig || {};
 
   const [_, drop] = useDrop(() => ({
     accept: [FileTreeDragTypes.TREE_NODE, NativeTypes.FILE],
@@ -97,7 +99,7 @@ const TreeNode = ({
   const [__, drag] = useDrag({
     type: FileTreeDragTypes.TREE_NODE,
     item: nodeData,
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });

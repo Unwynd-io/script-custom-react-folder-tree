@@ -13,6 +13,10 @@ const deleteNode = jest.fn();
 const addNode = jest.fn();
 const toggleOpen = jest.fn();
 const onNameClick = jest.fn();
+const dndConfig = {
+  onDrop: null,
+  backend: null,
+};
 
 const render = ({
   iconComponents = {},
@@ -39,6 +43,7 @@ const render = ({
     indentPixels,
     showCheckbox,
     readOnly,
+    dndConfig,
   };
 
   node = mount((
