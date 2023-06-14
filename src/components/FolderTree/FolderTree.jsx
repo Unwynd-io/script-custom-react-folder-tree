@@ -1,4 +1,6 @@
 import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import useTreeState, {
   testData,
@@ -28,6 +30,10 @@ const FolderTree = ({
   debug = false,
   searchData = null,
   showSearchData = false,
+  dndConfig = {
+    onDrop: null,
+    backend: null,
+  },
 }) => {
   const options = {
     initCheckedStatus,
@@ -56,6 +62,7 @@ const FolderTree = ({
     debug,
     searchData,
     showSearchData,
+    dndConfig,
   };
 
   /* ----------
@@ -69,9 +76,11 @@ const FolderTree = ({
 
   return (
     <div className='FolderTree'>
-      <ConfigContext.Provider value={configs}>
-        <TreeNode key={treeState._id} path={[]} {...treeState} />
-      </ConfigContext.Provider>
+      <DndProvider backend={ dndConfig.backend || HTML5Backend } options={ dndConfig.options }>
+        <ConfigContext.Provider value={configs}>
+          <TreeNode key={treeState._id} path={[]} {...treeState} />
+        </ConfigContext.Provider>
+      </DndProvider>
     </div>
   );
 };
@@ -104,6 +113,10 @@ FolderTree.propTypes = {
   debug: PropTypes.bool,
   searchData: PropTypes.object,
   showSearchData: PropTypes.bool,
+  dndConfig: PropTypes.shape({
+    backend: PropTypes.func,
+    onDrop: PropTypes.func,
+  }),
 };
 
 export {

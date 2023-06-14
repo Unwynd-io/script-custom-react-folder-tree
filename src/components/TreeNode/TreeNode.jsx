@@ -2,6 +2,8 @@ import React, {
   useContext,
   useState,
 } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
+import { NativeTypes } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import {
   AiFillCaretRight,
@@ -25,6 +27,7 @@ import {
   iconClassName,
   getDefaultIcon,
 } from '../../utils/iconUtils';
+import { FileTreeDragTypes } from '../../utils/dnd';
 
 const TreeNode = ({
   path,
@@ -51,12 +54,25 @@ const TreeNode = ({
     onIconClick,
     showCheckbox,
     readOnly,
+    dndConfig,
 
     searchData,
     showSearchData,
 
     debug,
   } = useContext(ConfigContext);
+
+  const { onDrop } = dndConfig || {};
+
+  const [_, drop] = useDrop(() => ({
+    accept: [FileTreeDragTypes.TREE_NODE, NativeTypes.FILE],
+    drop: item => {
+      onDrop?.(item);
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+    }),
+  }), [onDrop]);
 
   const isFolder = !!children;
 
@@ -79,6 +95,14 @@ const TreeNode = ({
     showSearchData,
     ...restData,
   };
+
+  const [__, drag] = useDrag({
+    type: FileTreeDragTypes.TREE_NODE,
+    item: nodeData,
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const level = path.length;
 
@@ -245,6 +269,7 @@ const TreeNode = ({
   return (
     <>
       <div
+        ref={ isFolder ? drop : drag }
         className={`TreeNode ${
           isFolder ? 'TreeNode__folder' : 'TreeNode__file'
         } ${isSelected ? 'TreeNode__selected' : ''} ${
@@ -301,7 +326,8 @@ TreeNode.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.number.isRequired,
   isOpen: PropTypes.bool,
-
+  fileID: PropTypes.string,
+  folderID: PropTypes.string,
   children: PropTypes.array,
 };
 
