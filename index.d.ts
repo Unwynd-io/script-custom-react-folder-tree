@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { BackendFactory } from 'dnd-core';
 
 type Checked = 0 | 0.5 | 1;
 
@@ -33,6 +34,10 @@ export interface FolderTreeProps {
   showCheckbox?: boolean;
   searchData: SearchDataProp;
   showSearchData?: boolean;
+  dndConfig?: {
+    backend: BackendFactory;
+    onDrop: (item: any) => void;
+  };
 }
 
 export type Icon = React.FunctionComponent<IconProps>;
