@@ -32,6 +32,7 @@ const FolderTree = ({
   showSearchData = false,
   dndConfig = {
     onDrop: null,
+    onDragStart: null,
     backend: null,
   },
 }) => {

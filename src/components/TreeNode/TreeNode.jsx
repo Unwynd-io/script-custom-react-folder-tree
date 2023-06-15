@@ -1,5 +1,7 @@
 import React, {
   useContext,
+  useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -62,18 +64,6 @@ const TreeNode = ({
     debug,
   } = useContext(ConfigContext);
 
-  const { onDrop } = dndConfig || {};
-
-  const [_, drop] = useDrop(() => ({
-    accept: [FileTreeDragTypes.TREE_NODE, NativeTypes.FILE],
-    drop: item => {
-      onDrop?.(item);
-    },
-    collect: monitor => ({
-      isOver: monitor.isOver(),
-    }),
-  }), [onDrop]);
-
   const isFolder = !!children;
 
   let matchCount = 0;
@@ -96,13 +86,32 @@ const TreeNode = ({
     ...restData,
   };
 
-  const [__, drag] = useDrag({
+  const { onDrop, onDragStart } = dndConfig || {};
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: [FileTreeDragTypes.TREE_NODE, NativeTypes.FILE],
+    drop: (dragItem, monitor) => {
+      const dropTargetItem = nodeData;
+      onDrop?.(dropTargetItem, dragItem);
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+    }),
+  }), [onDrop]);
+
+  const [{ isDragging }, drag] = useDrag({
     type: FileTreeDragTypes.TREE_NODE,
     item: nodeData,
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });
+
+  useEffect(() => {
+    if (isDragging) {
+      onDragStart?.(nodeData);
+    }
+  }, [isDragging]);
 
   const level = path.length;
 
@@ -261,6 +270,8 @@ const TreeNode = ({
   // TreeNode__file: !isFolder,
   // TreeNode__selected: isSelected,
   // TreeNode__editing: isEditing,
+  // TreeNode__dragged: isDragging,
+  // TreeNode__dragged-over: isOver,
   // TreeNode__open: isOpen,
   // TreeNode__root: level === 0,
   // TreeNode__top: level === 1,
@@ -270,14 +281,14 @@ const TreeNode = ({
     <>
       <div
         ref={ isFolder ? drop : drag }
-        className={`TreeNode ${
+        className={ `TreeNode ${
           isFolder ? 'TreeNode__folder' : 'TreeNode__file'
         } ${isSelected ? 'TreeNode__selected' : ''} ${
           isEditing ? 'TreeNode__editing' : ''
-        } ${isOpen ? 'TreeNode__open' : ''} ${
+        } ${isDragging ? 'TreeNode__dragged' : ''} ${isOver ? 'TreeNode__dragged-over' : ''} ${isOpen ? 'TreeNode__open' : ''} ${
           level === 0 ? 'TreeNode__root' : ''
-        } ${level === 1 ? 'TreeNode__top' : ''} TreeNode__level-${level}`}
-        style={treeNodeStyle}
+        } ${level === 1 ? 'TreeNode__top' : ''} TreeNode__level-${level}` }
+        style={ treeNodeStyle }
       >
         {showCheckbox && (
           <CheckBox status={checked} onChange={handleCheckBoxChange} />
