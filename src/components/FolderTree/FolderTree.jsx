@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useCallback, useMemo, useRef, useState,
+} from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
@@ -43,6 +45,13 @@ const FolderTree = ({
   const { treeState, reducers } = useTreeState({ data, options, onChange });
   const { checkNode, renameNode, deleteNode, addNode, toggleOpen } = reducers;
 
+  const [dndArea, setDndArea] = useState(null);
+  const folderTreeRefCallback = useCallback(node => setDndArea(node), []);
+  const html5Options = useMemo(
+    () => ({ rootElement: dndArea }),
+    [dndArea],
+  );
+
   if (!treeState) return null;
 
   const configs = {
@@ -76,12 +85,17 @@ const FolderTree = ({
   }
 
   return (
-    <div className='FolderTree'>
-      <DndProvider backend={ dndConfig.backend || HTML5Backend } options={ dndConfig.options }>
-        <ConfigContext.Provider value={configs}>
-          <TreeNode key={treeState._id} path={[]} {...treeState} />
-        </ConfigContext.Provider>
-      </DndProvider>
+    <div ref={ folderTreeRefCallback } className='FolderTree'>
+      {dndArea == null ? null : (
+        <DndProvider
+          backend={ HTML5Backend }
+          options={ html5Options }
+        >
+          <ConfigContext.Provider value={configs}>
+            <TreeNode key={treeState._id} path={[]} {...treeState} />
+          </ConfigContext.Provider>
+        </DndProvider>
+      )}
     </div>
   );
 };

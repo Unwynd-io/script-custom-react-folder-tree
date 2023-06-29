@@ -35,9 +35,8 @@ export interface FolderTreeProps {
   searchData: SearchDataProp;
   showSearchData?: boolean;
   dndConfig?: {
-    backend: BackendFactory;
     onDrop: (dropTargetItem: {}, dragItem: {}) => void;
-    onDragStart: (dragItem: {}) => void;
+    onDragStart?: (dragItem: {}) => void;
   };
 }
 

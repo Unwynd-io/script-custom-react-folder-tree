@@ -5,7 +5,6 @@ import React, {
   useState,
 } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { NativeTypes } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import {
   AiFillCaretRight,
@@ -89,7 +88,7 @@ const TreeNode = ({
   const { onDrop, onDragStart } = dndConfig || {};
 
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: [FileTreeDragTypes.TREE_NODE, NativeTypes.FILE],
+    accept: [FileTreeDragTypes.TREE_NODE],
     drop: (dragItem, monitor) => {
       const dropTargetItem = nodeData;
       onDrop?.(dropTargetItem, dragItem);
