@@ -35,7 +35,6 @@ const FolderTree = ({
   dndConfig = {
     onDrop: null,
     onDragStart: null,
-    backend: null,
   },
 }) => {
   const options = {
@@ -129,8 +128,8 @@ FolderTree.propTypes = {
   searchData: PropTypes.object,
   showSearchData: PropTypes.bool,
   dndConfig: PropTypes.shape({
-    backend: PropTypes.func,
     onDrop: PropTypes.func,
+    onDragStart: PropTypes.func,
   }),
 };
 

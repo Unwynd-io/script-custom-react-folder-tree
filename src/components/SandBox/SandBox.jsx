@@ -114,7 +114,6 @@ const SandBox = ({ dndConfig }) => {
 
 SandBox.propTypes = {
   dndConfig: PropTypes.shape({
-    backend: PropTypes.func,
     onDrop: PropTypes.func,
     onDragStart: PropTypes.func,
   }),
