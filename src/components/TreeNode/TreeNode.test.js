@@ -1,4 +1,5 @@
 import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { mount } from 'enzyme';
 import TreeNode from './TreeNode';
 
@@ -42,21 +43,24 @@ const render = ({
     indentPixels,
     showCheckbox,
     readOnly,
-    dndConfig,
   };
 
   node = mount((
     <ConfigContext.Provider
       value={ configs }
     >
-      <TreeNode
-        path={ path }
-        name={ name }
-        checked={ checked }
-        isOpen={ isOpen }
-        children={ children }
-        { ...restData }
-      />
+      <DragDropContext
+        onDragEnd={ dndConfig.onDrop }
+      >
+        <TreeNode
+          path={ path }
+          name={ name }
+          checked={ checked }
+          isOpen={ isOpen }
+          children={ children }
+          { ...restData }
+        />
+      </DragDropContext>
     </ConfigContext.Provider>
   ));
 };

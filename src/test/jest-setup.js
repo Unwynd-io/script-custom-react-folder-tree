@@ -5,15 +5,13 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 configure({ adapter: new Adapter() });
 
-// Mock implementation for the DndProvider component
-const DndProvider = ({ children }) => <div>{children}</div>;
+// Mock implementation for react-beautiful-dnd
 
-jest.mock('react-dnd', () => ({
-  useDrag: jest.fn((...args) => [{ isDragging: false }, jest.fn()]),
-  useDrop: jest.fn((...args) => [{ isOver: false }, jest.fn()]),
-  DndProvider,
-}));
-
-jest.mock('react-dnd-html5-backend', () => ({
-  HTML5Backend: jest.fn(),
+const DragDropContext = ({ children }) => <div>{children}</div>;
+const Draggable = ({ children }) => children({ draggableProps: {}, dragHandleProps: {}, innerRef: () => {} }, { isDragging: false });
+const Droppable = ({ children }) => children({ droppableProps: {}, placeholder: null }, { isDraggingOver: false });
+jest.mock('react-beautiful-dnd', () => ({
+  DragDropContext,
+  Droppable,
+  Draggable,
 }));
