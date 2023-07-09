@@ -252,7 +252,7 @@ const TreeNodeChild = forwardRef(({
   const { isDragging, isDraggingOver: isOver } = snapshot;
   const { style, ...draggableProps } = provided.draggableProps || {};
   const dndProps = isFolder ? { ...provided.droppableProps } : { ...draggableProps, ...provided.dragHandleProps };
-  const dragStyle = isFolder ? null : provided.draggableProps?.style;
+  const dragStyle = isDragging && !isFolder ? style : null;
 
   return (
     <>
@@ -299,6 +299,8 @@ const TreeNodeChild = forwardRef(({
           />
         </span>
         {isSelected && TreeNodeToolBar}
+        {/* Hide while also preventing dnd from complaining of missing provided.placeholder */}
+        {isFolder && <div id="droppable-placeholder" style={{display: 'none'}}>{provided.placeholder}</div>}
       </div>
 
       {isFolder
@@ -306,7 +308,6 @@ const TreeNodeChild = forwardRef(({
         && children.map((data, idx) => (
           <TreeNode key={ data._id } path={ [...path, idx] } { ...data } />
         ))}
-      {isFolder && provided.placeholder}
     </>
   );
 });
