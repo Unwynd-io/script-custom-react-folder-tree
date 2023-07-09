@@ -28,7 +28,6 @@ const render = ({
   name,
   checked,
   isOpen,
-  children,
   ...restData
 }) => {
   const configs = {
@@ -57,7 +56,6 @@ const render = ({
           name={ name }
           checked={ checked }
           isOpen={ isOpen }
-          children={ children }
           { ...restData }
         />
       </DragDropContext>

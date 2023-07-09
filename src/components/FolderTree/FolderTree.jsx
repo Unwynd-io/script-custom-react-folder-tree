@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import useTreeState, {
   testData,
@@ -61,7 +61,6 @@ const FolderTree = ({
     debug,
     searchData,
     showSearchData,
-    dndConfig,
   };
 
   /* ----------
