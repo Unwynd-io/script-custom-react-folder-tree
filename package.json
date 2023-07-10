@@ -99,14 +99,11 @@
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^16.8.0 || ^17"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
+    "react-beautiful-dnd": "^13.1.1",
     "react-icons": "^4.1.0",
     "use-tree-state": "1.0.0"
   }

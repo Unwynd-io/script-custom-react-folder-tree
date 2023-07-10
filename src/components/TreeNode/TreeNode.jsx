@@ -1,10 +1,10 @@
 import React, {
   useContext,
   useEffect,
-  useRef,
   useState,
+  forwardRef,
 } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import {
   AiFillCaretRight,
@@ -28,9 +28,8 @@ import {
   iconClassName,
   getDefaultIcon,
 } from '../../utils/iconUtils';
-import { FileTreeDragTypes } from '../../utils/dnd';
 
-const TreeNode = ({
+const TreeNodeChild = forwardRef(({
   path,
   name,
   checked,
@@ -38,8 +37,10 @@ const TreeNode = ({
   children,
   fileID,
   folderID,
+  provided,
+  snapshot,
   ...restData
-}) => {
+}, ref) => {
   const {
     handleCheck,
     handleRename,
@@ -55,7 +56,6 @@ const TreeNode = ({
     onIconClick,
     showCheckbox,
     readOnly,
-    dndConfig,
 
     searchData,
     showSearchData,
@@ -85,33 +85,6 @@ const TreeNode = ({
     ...restData,
   };
 
-  const { onDrop, onDragStart } = dndConfig || {};
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: [FileTreeDragTypes.TREE_NODE],
-    drop: (dragItem, monitor) => {
-      const dropTargetItem = nodeData;
-      onDrop?.(dropTargetItem, dragItem);
-    },
-    collect: monitor => ({
-      isOver: monitor.isOver(),
-    }),
-  }), [onDrop]);
-
-  const [{ isDragging }, drag] = useDrag({
-    type: FileTreeDragTypes.TREE_NODE,
-    item: nodeData,
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  useEffect(() => {
-    if (isDragging) {
-      onDragStart?.(nodeData);
-    }
-  }, [isDragging]);
-
   const level = path.length;
 
   const offsetSize = !isFolder ? 0 : iconSize;
@@ -120,7 +93,7 @@ const TreeNode = ({
   const treeNodeStyle = {
     marginLeft: level * indentPixels - offsetDiff,
   };
-
+  
   if (debug) {
     console.log('----');
     console.log({
@@ -276,10 +249,15 @@ const TreeNode = ({
   // TreeNode__top: level === 1,
   // [`TreeNode__level-${level}`]: true,
 
+  const { isDragging, isDraggingOver: isOver } = snapshot;
+  const { style, ...draggableProps } = provided.draggableProps || {};
+  const dndProps = isFolder ? { ...provided.droppableProps } : { ...draggableProps, ...provided.dragHandleProps };
+  const dragStyle = isDragging && !isFolder ? style : null;
+
   return (
     <>
       <div
-        ref={ isFolder ? drop : drag }
+        ref={ ref }
         className={ `TreeNode ${
           isFolder ? 'TreeNode__folder' : 'TreeNode__file'
         } ${isSelected ? 'TreeNode__selected' : ''} ${
@@ -287,7 +265,8 @@ const TreeNode = ({
         } ${isDragging ? 'TreeNode__dragged' : ''} ${isOver ? 'TreeNode__dragged-over' : ''} ${isOpen ? 'TreeNode__open' : ''} ${
           level === 0 ? 'TreeNode__root' : ''
         } ${level === 1 ? 'TreeNode__top' : ''} TreeNode__level-${level}` }
-        style={ treeNodeStyle }
+        style={{ ...treeNodeStyle, ...dragStyle }}
+        { ...dndProps }
       >
         {showCheckbox && (
           <CheckBox status={checked} onChange={handleCheckBoxChange} />
@@ -320,21 +299,66 @@ const TreeNode = ({
           />
         </span>
         {isSelected && TreeNodeToolBar}
+        {/* Hide while also preventing dnd from complaining of missing provided.placeholder */}
+        {isFolder && <div id="droppable-placeholder" style={{display: 'none'}}>{provided.placeholder}</div>}
       </div>
 
-      {isFolder &&
-        isOpen &&
-        children.map((data, idx) => (
-          <TreeNode key={data._id} path={[...path, idx]} {...data} />
+      {isFolder
+        && isOpen
+        && children.map((data, idx) => (
+          <TreeNode key={ data._id } path={ [...path, idx] } { ...data } />
         ))}
     </>
+  );
+});
+
+TreeNodeChild.propTypes = {
+  path: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  checked: PropTypes.number.isRequired,
+  isOpen: PropTypes.bool,
+  fileID: PropTypes.string,
+  folderID: PropTypes.string,
+  children: PropTypes.array,
+  snapshot: PropTypes.object,
+  provided: PropTypes.object,
+};
+
+let indexCounter = 0;
+
+const TreeNode = props => {
+  const { folderID, fileID } = props;
+  const isFolder = !!props.children;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    indexCounter += 1;
+    setIndex(indexCounter);
+  }, []);
+
+  if (index === 0) {
+    return null;
+  }
+
+  return isFolder ? (
+    <Droppable type='FolderNode' droppableId={ folderID }>
+      {(provided, snapshot) => (
+        <TreeNodeChild ref={ provided.innerRef } provided={ provided } snapshot={ snapshot } { ...props } />
+      )}
+    </Droppable>
+  ) : (
+    <Draggable
+      draggableId={ fileID }
+      index={ index }
+    >
+      {(provided, snapshot) => (
+        <TreeNodeChild ref={ provided.innerRef } provided={ provided } snapshot={ snapshot } { ...props } />
+      )}
+    </Draggable>
   );
 };
 
 TreeNode.propTypes = {
-  path: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
-  checked: PropTypes.number.isRequired,
   isOpen: PropTypes.bool,
   fileID: PropTypes.string,
   folderID: PropTypes.string,

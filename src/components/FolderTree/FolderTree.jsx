@@ -1,8 +1,5 @@
-import React, {
-  useCallback, useMemo, useRef, useState,
-} from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import useTreeState, {
   testData,
@@ -44,13 +41,6 @@ const FolderTree = ({
   const { treeState, reducers } = useTreeState({ data, options, onChange });
   const { checkNode, renameNode, deleteNode, addNode, toggleOpen } = reducers;
 
-  const [dndArea, setDndArea] = useState(null);
-  const folderTreeRefCallback = useCallback(node => setDndArea(node), []);
-  const html5Options = useMemo(
-    () => ({ rootElement: dndArea }),
-    [dndArea],
-  );
-
   if (!treeState) return null;
 
   const configs = {
@@ -71,7 +61,6 @@ const FolderTree = ({
     debug,
     searchData,
     showSearchData,
-    dndConfig,
   };
 
   /* ----------
@@ -83,18 +72,43 @@ const FolderTree = ({
     console.log('tree state: ', treeState);
   }
 
+  const { onDrop, onDragStart } = dndConfig || {};
+
+  const handleDragEnd = result => {
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const dropTargetItem = {
+      folderID: result.destination.droppableId,
+    };
+    const dragItem = {
+      fileID: result.draggableId,
+    };
+    onDrop?.(dropTargetItem, dragItem);
+  };
+
+  const handleDragStart = result => {
+    const dragItem = {
+      fileID: result.draggableId,
+    };
+    onDragStart?.(dragItem);
+  };
+
   return (
-    <div ref={ folderTreeRefCallback } className='FolderTree'>
-      {dndArea == null ? null : (
-        <DndProvider
-          backend={ HTML5Backend }
-          options={ html5Options }
+    <div className='FolderTree'>
+      <ConfigContext.Provider value={ configs }>
+        <DragDropContext
+          onDragStart={ handleDragStart }
+          onDragEnd={ handleDragEnd }
         >
-          <ConfigContext.Provider value={configs}>
-            <TreeNode key={treeState._id} path={[]} {...treeState} />
-          </ConfigContext.Provider>
-        </DndProvider>
-      )}
+          <TreeNode key={ treeState._id } path={ [] } { ...treeState } />
+        </DragDropContext>
+      </ConfigContext.Provider>
     </div>
   );
 };
