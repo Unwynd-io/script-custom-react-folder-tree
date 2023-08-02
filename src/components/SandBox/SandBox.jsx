@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import FolderTree from '../FolderTree/FolderTree';
 import { testData } from '../../utils/testData';
 
 /* eslint-disable */
-const SandBox = ({ dndConfig }) => {
+const SandBox = () => {
   const onTreeStateChange = (state, e) => console.log({ state, e });
-  const [tree, setTree] = useState(null);
+  
+  const dndConfig = {
+    onDragStart: (dragItem) => {
+      console.log('onDragStart', dragItem);
+    },
+    onDrop: (dropTargetItem, dragItem) => {
+      console.log('onDrop', dropTargetItem, dragItem);
+    },
+  };
 
   return (
     !!testData && (
@@ -26,7 +34,7 @@ const SandBox = ({ dndConfig }) => {
           showCheckbox={false}
           offsetToggleIcon={true}
           indentPixels={20}
-          debug={true}
+          debug={false}
           searchData={{
             files: {
               YWm9BjSXt4PiCLMB: {
