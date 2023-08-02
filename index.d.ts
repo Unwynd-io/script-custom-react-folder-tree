@@ -1,5 +1,4 @@
 import type React from 'react';
-import type { BackendFactory } from 'dnd-core';
 
 type Checked = 0 | 0.5 | 1;
 
@@ -83,5 +82,22 @@ type OpenStatus = 'closed' | 'custom' | 'open';
 declare const FolderTree: React.FunctionComponent<FolderTreeProps>;
 
 export const testData: NodeData;
+
+export const findTargetNode: (root: NodeData, path: number[]) => NodeData;
+
+export type NodeDataKeys = keyof NodeData;
+export type NodeDataValues<T extends NodeDataKeys> = NodeData[T];
+
+export const findAllTargetPathByProp: <T extends NodeDataKeys>(
+  root: NodeData,
+  propName: T,
+  targetVal: NodeDataValues<T>
+) => number[][];
+
+export const findTargetPathByProp: <T extends NodeDataKeys>(
+  root: NodeData,
+  propName: T,
+  targetVal: NodeDataValues<T>
+) => number[] | null;
 
 export default FolderTree;
