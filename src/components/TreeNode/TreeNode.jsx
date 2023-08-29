@@ -39,6 +39,7 @@ const TreeNodeChild = forwardRef(({
   folderID,
   provided,
   snapshot,
+  skipChildren = true,
   ...restData
 }, ref) => {
   const {
@@ -116,8 +117,8 @@ const TreeNodeChild = forwardRef(({
     });
   }
 
-  if(activeParentFileId) {
-    console.warn('activeParentFileId', activeParentFileId)
+  if(debug && activeParentFileId) {
+    console.log('activeParentFileId', activeParentFileId)
   }
 
   const [isSelected, setIsSelected] = useState(false);
@@ -260,9 +261,7 @@ const TreeNodeChild = forwardRef(({
   const dndProps = isFolder ? { ...provided.droppableProps } : { ...draggableProps, ...provided.dragHandleProps };
   const dragStyle = isDragging && !isFolder ? style : null;
 
-  console.log('tree state: ', restData)
-
-  if(restData.childFile) {
+  if(skipChildren && restData.childFile) {
     return <span ref={ref} {...dndProps }></span>
   }
   
@@ -326,7 +325,7 @@ const TreeNodeChild = forwardRef(({
       { isActiveFile &&
         childrenFiles.map((data, idx) => {
           return (
-            <TreeNode key={ data._id } path={ [...path, idx] } { ...data } />
+            <TreeNode key={ data._id } path={ [...path, idx] } { ...data } skipChildren={false} />
           )
         })
       }
@@ -334,7 +333,7 @@ const TreeNodeChild = forwardRef(({
       { !isActiveFile && 
         childrenFiles.map((data, idx) => {
           return (
-            <span>hidden</span>
+            <></>
           )
         })
       }
