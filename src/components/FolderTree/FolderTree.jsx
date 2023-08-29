@@ -17,6 +17,7 @@ const FolderTree = ({
   data,
   onChange = console.log, // eslint-disable-line
   childFilesData = [],
+  activeFileId = null,
   activeParentFileId = null,
   initCheckedStatus = 'unchecked',
   initOpenStatus = 'open',
@@ -54,6 +55,7 @@ const FolderTree = ({
     onNameClick,
     onIconClick,
 
+    activeFileId,
     activeParentFileId,
     childFilesData,
     iconComponents,
@@ -144,6 +146,7 @@ FolderTree.propTypes = {
   readOnly: PropTypes.bool,
   debug: PropTypes.bool,
 
+  activeFileId: PropTypes.string || PropTypes.bool, 
   activeParentFileId: PropTypes.string || PropTypes.bool, 
   childFilesData: PropTypes.array,
   searchData: PropTypes.object,

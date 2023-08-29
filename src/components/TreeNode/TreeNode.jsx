@@ -60,6 +60,7 @@ const TreeNodeChild = forwardRef(({
 
     searchData,
     showSearchData,
+    activeFileId,
     activeParentFileId,
     childFilesData,
 
@@ -265,7 +266,8 @@ const TreeNodeChild = forwardRef(({
     return <span ref={ref} {...dndProps }></span>
   }
   
-  const isActiveFile = fileID === activeParentFileId;
+  const isActiveFile = fileID === activeFileId;
+  const activeParentFile = fileID === activeParentFileId;
   let childrenFiles = [];
   if(typeof childFilesData === 'object' && typeof childFilesData.filter === 'function') {
     childrenFiles = childFilesData.filter((file) => {
@@ -277,6 +279,7 @@ const TreeNodeChild = forwardRef(({
     <>
       <div
         ref={ ref }
+        activefile={isActiveFile ? 'true' : null}
         className={ `TreeNode ${
           isFolder ? 'TreeNode__folder' : 'TreeNode__file'
         } ${isSelected ? 'TreeNode__selected' : ''} ${
@@ -322,7 +325,7 @@ const TreeNodeChild = forwardRef(({
         {isFolder && <div id="droppable-placeholder" style={{display: 'none'}}>{provided.placeholder}</div>}
       </div>
 
-      { isActiveFile &&
+      { activeParentFile &&
         childrenFiles.map((data, idx) => {
           return (
             <TreeNode key={ data._id } path={ [...path, idx] } { ...data } skipChildren={false} />
@@ -330,7 +333,7 @@ const TreeNodeChild = forwardRef(({
         })
       }
 
-      { !isActiveFile && 
+      { !activeParentFile && 
         childrenFiles.map((data, idx) => {
           return (
             <></>
