@@ -59,6 +59,8 @@ const TreeNodeChild = forwardRef(({
 
     searchData,
     showSearchData,
+    activeParentFileId,
+    childFilesData,
 
     debug,
   } = useContext(ConfigContext);
@@ -112,6 +114,10 @@ const TreeNodeChild = forwardRef(({
       offsetSize,
       offsetToggleIcon,
     });
+  }
+
+  if(activeParentFileId) {
+    console.warn('activeParentFileId', activeParentFileId)
   }
 
   const [isSelected, setIsSelected] = useState(false);
@@ -254,6 +260,20 @@ const TreeNodeChild = forwardRef(({
   const dndProps = isFolder ? { ...provided.droppableProps } : { ...draggableProps, ...provided.dragHandleProps };
   const dragStyle = isDragging && !isFolder ? style : null;
 
+  console.log('tree state: ', restData)
+
+  if(restData.childFile) {
+    return <span ref={ref} {...dndProps }></span>
+  }
+  
+  const isActiveFile = fileID === activeParentFileId;
+  let childrenFiles = [];
+  if(typeof childFilesData === 'object' && typeof childFilesData.filter === 'function') {
+    childrenFiles = childFilesData.filter((file) => {
+      return file.parentFileId === fileID
+    })
+  }
+
   return (
     <>
       <div
@@ -302,6 +322,22 @@ const TreeNodeChild = forwardRef(({
         {/* Hide while also preventing dnd from complaining of missing provided.placeholder */}
         {isFolder && <div id="droppable-placeholder" style={{display: 'none'}}>{provided.placeholder}</div>}
       </div>
+
+      { isActiveFile &&
+        childrenFiles.map((data, idx) => {
+          return (
+            <TreeNode key={ data._id } path={ [...path, idx] } { ...data } />
+          )
+        })
+      }
+
+      { !isActiveFile && 
+        childrenFiles.map((data, idx) => {
+          return (
+            <span>hidden</span>
+          )
+        })
+      }
 
       {isFolder
         && isOpen

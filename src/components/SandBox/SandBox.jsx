@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FolderTree from '../FolderTree/FolderTree';
 import { testData } from '../../utils/testData';
+import testChilds from '../../utils/testChilds';
+import testProject from '../../utils/testProject';
 
 /* eslint-disable */
 const SandBox = () => {
@@ -16,12 +18,15 @@ const SandBox = () => {
     },
   };
 
+
   return (
     !!testData && (
       <div className='demo-sandbox'>
         <FolderTree
+          activeParentFileId={'aTkNdr9Natk5LfKT'}
+          childFilesData={testChilds}
           dndConfig={dndConfig}
-          data={testData}
+          data={testProject}
           onChange={onTreeStateChange}
           onIconClick={(e, nodeData) => {
             console.log('INSIDE ICON CLICK', e, nodeData);
@@ -34,7 +39,7 @@ const SandBox = () => {
           showCheckbox={false}
           offsetToggleIcon={true}
           indentPixels={20}
-          debug={false}
+          debug={true}
           searchData={{
             files: {
               YWm9BjSXt4PiCLMB: {

@@ -16,6 +16,8 @@ import './FolderTree.scss';
 const FolderTree = ({
   data,
   onChange = console.log, // eslint-disable-line
+  childFilesData = [],
+  activeParentFileId = null,
   initCheckedStatus = 'unchecked',
   initOpenStatus = 'open',
   iconComponents = {},
@@ -52,6 +54,8 @@ const FolderTree = ({
     onNameClick,
     onIconClick,
 
+    activeParentFileId,
+    childFilesData,
     iconComponents,
     indentPixels,
     iconSize,
@@ -69,7 +73,7 @@ const FolderTree = ({
                                                                                         ---------- */
 
   if (debug) {
-    console.log('tree state: ', treeState);
+    console.log('tree state: v5.2.2', treeState, activeParentFileId, childFilesData)
   }
 
   const { onDrop, onDragStart } = dndConfig || {};
@@ -139,6 +143,9 @@ FolderTree.propTypes = {
   showCheckbox: PropTypes.bool,
   readOnly: PropTypes.bool,
   debug: PropTypes.bool,
+
+  activeParentFileId: PropTypes.string || PropTypes.bool, 
+  childFilesData: PropTypes.array,
   searchData: PropTypes.object,
   showSearchData: PropTypes.bool,
   dndConfig: PropTypes.shape({
