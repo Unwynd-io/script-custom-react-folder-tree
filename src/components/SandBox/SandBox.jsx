@@ -23,8 +23,8 @@ const SandBox = () => {
     !!testData && (
       <div className='demo-sandbox'>
         <FolderTree
-          activeFileId={'aTkNdr9Natk5LfKT'}
-          activeParentFileId={'aTkNdr9Natk5LfKT'}
+          activeFileId={'Dpcd9UcAW8wd6sFF'}
+          activeParentFileId={'Dpcd9UcAW8wd6sFF'}
           childFilesData={testChilds}
           dndConfig={dndConfig}
           data={testProject}

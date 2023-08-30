@@ -257,8 +257,8 @@ const TreeNodeChild = forwardRef(({
   // TreeNode__top: level === 1,
   // [`TreeNode__level-${level}`]: true,
 
-  const { isDragging, isDraggingOver: isOver } = snapshot;
-  const { style, ...draggableProps } = provided.draggableProps || {};
+  const { isDragging, isDraggingOver: isOver } = snapshot || {};
+  const { style, ...draggableProps } = provided && provided.draggableProps || {};
   const dndProps = isFolder ? { ...provided.droppableProps } : { ...draggableProps, ...provided.dragHandleProps };
   const dragStyle = isDragging && !isFolder ? style : null;
 
@@ -367,6 +367,7 @@ let indexCounter = 0;
 const TreeNode = props => {
   const { folderID, fileID } = props;
   const isFolder = !!props.children;
+  const isChildFile = props.childFile;
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -376,6 +377,13 @@ const TreeNode = props => {
 
   if (index === 0) {
     return null;
+  }
+
+  if(isChildFile) {
+    // non-dragable, only parent file is
+    return (
+      <TreeNodeChild provided={{}} { ...props } />
+    )
   }
 
   return isFolder ? (
