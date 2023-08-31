@@ -128,7 +128,7 @@ const TreeNodeChild = forwardRef(({
 
   const ChildFileArrowIcon = ({}) => {
     return (
-      <svg style={{paddingRight: '10px', fill: 'var(--node-text-color)'}} tree_file_id={nodeData.fileID} treeid={nodeData._id} xmlns="http://www.w3.org/2000/svg" width="12" height="13.707" viewBox="0 0 12 13.707">
+      <svg style={{marginRight: '5px', fill: 'var(--node-text-color)'}} tree_file_id={nodeData.fileID} treeid={nodeData._id} xmlns="http://www.w3.org/2000/svg" width="12" height="13.707" viewBox="0 0 12 13.707">
         <path style={{fill: 'var(--node-text-color)'}} id="Path_751" data-name="Path 751" d="M562.586,124l-1.293,1.293,1.414,1.414,3-3a1,1,0,0,0,0-1.414l-3-3-1.414,1.414L562.586,122H556v-9h-2v10a1,1,0,0,0,1,1Z" transform="translate(-554 -113)" fill="#686a6e" fill-rule="evenodd"/>
       </svg>
     )
@@ -308,6 +308,7 @@ const TreeNodeChild = forwardRef(({
         <span
           className={iconContainerClassName('typeIconContainer')}
           onClick={handleIconClick}
+          style={{width: nodeData.childFile ? '40px' : null}}
         >
 
           { nodeData.childFile &&
