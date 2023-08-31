@@ -308,12 +308,14 @@ const TreeNodeChild = forwardRef(({
         <span
           className={iconContainerClassName('typeIconContainer')}
           onClick={handleIconClick}
-          style={{width: nodeData.childFile ? '40px' : null}}
+          //style={{width: nodeData.childFile ? '40px' : null}}
         >
 
+          { /*
           { nodeData.childFile &&
              <ChildFileArrowIcon />
-          }
+          }   
+          */ }  
           
           <TypeIcon
             className={iconClassName(TypeIconType)}
@@ -347,17 +349,6 @@ const TreeNodeChild = forwardRef(({
           )
         })
       }
-
-      { /* }
-      { !activeParentFile && 
-        childrenFiles.map((data, idx) => {
-          return (
-            <></>
-          )
-        })
-      }
-
-      { */ }
 
       {isFolder
         && isOpen
