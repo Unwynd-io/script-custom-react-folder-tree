@@ -75,7 +75,7 @@ const FolderTree = ({
                                                                                         ---------- */
 
   if (debug) {
-    console.log('tree state: v5.2.2', treeState, activeParentFileId, childFilesData)
+    console.log('tree state: ', treeState, activeParentFileId, childFilesData)
   }
 
   const { onDrop, onDragStart } = dndConfig || {};
