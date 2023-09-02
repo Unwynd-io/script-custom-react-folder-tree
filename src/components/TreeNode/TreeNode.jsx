@@ -128,6 +128,7 @@ const TreeNodeChild = forwardRef(({
 
   const [isSelected, setIsSelected] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showChildren, setShowChildren]= useState(true);
 
   const {
     FileIcon = getDefaultIcon(AiOutlineFile),
@@ -177,6 +178,10 @@ const TreeNodeChild = forwardRef(({
   const addFolder = () => handleAddNode(path, true);
 
   const handleNameClick = () => {
+    if(activeFileId === fileID && childrenFiles.length > 0) {
+      setShowChildren(!showChildren)
+    }
+
     const defaultOnClick = selectMe;
     if (onNameClick && typeof onNameClick === 'function') {
       !isEditing && onNameClick({ defaultOnClick, nodeData });
@@ -331,7 +336,7 @@ const TreeNodeChild = forwardRef(({
         {isFolder && <div id="droppable-placeholder" style={{display: 'none'}}>{provided.placeholder}</div>}
       </div>
 
-      { activeParentFile &&
+      { activeParentFile && showChildren &&
         childrenFiles.map((data, idx) => {
           return (
             <TreeNode key={ data._id } path={ [...path, idx] } { ...data } skipChildren={false} />
