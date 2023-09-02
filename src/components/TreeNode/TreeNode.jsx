@@ -178,7 +178,7 @@ const TreeNodeChild = forwardRef(({
   const addFolder = () => handleAddNode(path, true);
 
   const handleNameClick = () => {
-    if(activeFileId === fileID && childrenFiles.length > 0) {
+    if(!isEditing && activeFileId === fileID && childrenFiles.length > 0) {
       setShowChildren(!showChildren)
     }
 
