@@ -7,23 +7,11 @@ const testProject = {
     "children": [
         {
             "_id": "tEwGZaAECPHe08ja",
-            "name": "Document Two",
-            "type": "FILE",
-            "childFile": false,
-            "parentFileId": null,
-            "fileID": "tEwGZaAECPHe08ja",
-            "emoji": null,
-            "isExternalFormat": false,
-            "extension": null,
-            "assetSourceId": null
-        },
-        {
-            "_id": "WxbJUHuqPo9KY38J",
             "name": "Document One",
             "type": "FILE",
             "childFile": false,
             "parentFileId": null,
-            "fileID": "WxbJUHuqPo9KY38J",
+            "fileID": "tEwGZaAECPHe08ja",
             "emoji": null,
             "isExternalFormat": false,
             "extension": null,
@@ -44,7 +32,7 @@ const testProject = {
             "children": [
                 {
                     "_id": "Dpcd9UcAW8wd6sFF",
-                    "name": "Agreement",
+                    "name": "Example Parent File",
                     "type": "FILE",
                     "childFile": false,
                     "parentFileId": null,
@@ -53,43 +41,7 @@ const testProject = {
                     "isExternalFormat": false,
                     "extension": null,
                     "assetSourceId": null
-                },
-                {
-                    "_id": "YaoaDjLBqmufx1wX",
-                    "name": "EXHIBIT 1",
-                    "type": "FILE",
-                    "childFile": true,
-                    "parentFileId": "Dpcd9UcAW8wd6sFF",
-                    "fileID": "YaoaDjLBqmufx1wX",
-                    "emoji": null,
-                    "isExternalFormat": false,
-                    "extension": null,
-                    "assetSourceId": null
-                },
-                {
-                    "_id": "nbgz5eeIvWiwAqbC",
-                    "name": "ANNEX A",
-                    "type": "FILE",
-                    "childFile": true,
-                    "parentFileId": "Dpcd9UcAW8wd6sFF",
-                    "fileID": "nbgz5eeIvWiwAqbC",
-                    "emoji": null,
-                    "isExternalFormat": false,
-                    "extension": null,
-                    "assetSourceId": null
-                },
-                {
-                    "_id": "A1xS3HwavI3N1hPj",
-                    "name": "ANNEX B",
-                    "type": "FILE",
-                    "childFile": true,
-                    "parentFileId": "Dpcd9UcAW8wd6sFF",
-                    "fileID": "A1xS3HwavI3N1hPj",
-                    "emoji": null,
-                    "isExternalFormat": false,
-                    "extension": null,
-                    "assetSourceId": null
-                }
+                },  
             ]
         }
     ]

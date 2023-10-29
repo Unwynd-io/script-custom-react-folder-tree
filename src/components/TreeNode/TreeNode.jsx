@@ -282,6 +282,26 @@ const TreeNodeChild = forwardRef(({
     childrenFiles = childFilesData.filter((file) => {
       return file.parentFileId === fileID
     })
+    
+    // Sort order of children/attachment files
+    childrenFiles = childrenFiles.sort((a, b) => {
+      // Extract the name without numbers at the end
+      const nameA = a.name.replace(/ \d+$/, '');
+      const nameB = b.name.replace(/ \d+$/, '');
+    
+      // Compare names without numbers
+      if (nameA < nameB) {
+        return -1;
+      } else if (nameA > nameB) {
+        return 1;
+      } else {
+        // Names are the same without numbers, compare the numbers
+        const numA = parseInt(a.name.match(/\d+$/));
+        const numB = parseInt(b.name.match(/\d+$/));
+        return numA - numB;
+      }
+    });
+  
   }
 
   const toolbarContainerClasses = isChildFile ? iconContainerClassName('typeIconContainer') + ' childIconContainer': iconContainerClassName('typeIconContainer') 
