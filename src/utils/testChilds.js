@@ -61,7 +61,7 @@ const testChilds = [
     },
     {
         "_id": "qxwj4x0oye2lvlik2v8mr",
-        "name": "Apple",
+        "name": "apple",
         "type": "FILE",
         "fileID": "YaoaDjLBqmufx1wX",
         "projectID": "vzHQt2ohbPs2M2mwHky0flezLrkeJZjV",

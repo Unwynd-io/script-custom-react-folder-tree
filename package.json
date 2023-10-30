@@ -1,6 +1,6 @@
 {
   "name": "script-custom-react-folder-tree",
-  "version": "5.2.15",
+  "version": "5.2.16",
   "description": "customizable react folder tree library",
   "main": "dist/react-folder-tree.bundle.js",
   "typings": "index.d.ts",

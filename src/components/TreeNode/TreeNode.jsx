@@ -285,9 +285,12 @@ const TreeNodeChild = forwardRef(({
     
     // Sort order of children/attachment files
     childrenFiles = childrenFiles.sort((a, b) => {
+      const firstName = a.name.toLowerCase()
+      const secondName = b.name.toLowerCase()
+
       // Extract the name without numbers at the end
-      const nameA = a.name.replace(/ \d+$/, '');
-      const nameB = b.name.replace(/ \d+$/, '');
+      const nameA = firstName.replace(/ \d+$/, '');
+      const nameB = secondName.replace(/ \d+$/, '');
     
       // Compare names without numbers
       if (nameA < nameB) {
