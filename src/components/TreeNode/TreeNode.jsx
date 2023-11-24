@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useState,
   forwardRef,
+  useMemo,
 } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
@@ -178,7 +179,7 @@ const TreeNodeChild = forwardRef(({
   const addFolder = () => handleAddNode(path, true);
 
   const handleNameClick = () => {
-    if(!isEditing && activeFileId === fileID && childrenFiles.length > 0) {
+    if(!isEditing && activeFileId === fileID && (typeof childrenFiles === 'object' && childrenFiles.length > 0)) {
       setShowChildren(!showChildren)
     }
 
@@ -277,35 +278,32 @@ const TreeNodeChild = forwardRef(({
   
   const isActiveFile = fileID === activeFileId;
   const activeParentFile = fileID === activeParentFileId;
-  let childrenFiles = [];
-  if(typeof childFilesData === 'object' && typeof childFilesData.filter === 'function') {
-    childrenFiles = childFilesData.filter((file) => {
-      return file.parentFileId === fileID
-    })
-    
-    // Sort order of children/attachment files
-    childrenFiles = childrenFiles.sort((a, b) => {
-      const firstName = a.name.toLowerCase()
-      const secondName = b.name.toLowerCase()
-
-      // Extract the name without numbers at the end
-      const nameA = firstName.replace(/ \d+$/, '');
-      const nameB = secondName.replace(/ \d+$/, '');
-    
-      // Compare names without numbers
-      if (nameA < nameB) {
-        return -1;
-      } else if (nameA > nameB) {
-        return 1;
-      } else {
-        // Names are the same without numbers, compare the numbers
-        const numA = parseInt(a.name.match(/\d+$/));
-        const numB = parseInt(b.name.match(/\d+$/));
-        return numA - numB;
-      }
-    });
+  const childrenFiles = useMemo(() => {
+    let setChildren = [];
+    if(typeof childFilesData === 'object' && typeof childFilesData.filter === 'function') {
+      setChildren = childFilesData.filter((file) => file.parentFileId === fileID).sort((a, b) => {
+        const firstName = a.name.toLowerCase()
+        const secondName = b.name.toLowerCase()
   
-  }
+        // Extract the name without numbers at the end
+        const nameA = firstName.replace(/ \d+$/, '');
+        const nameB = secondName.replace(/ \d+$/, '');
+      
+        // Compare names without numbers
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          // Names are the same without numbers, compare the numbers
+          const numA = parseInt(a.name.match(/\d+$/));
+          const numB = parseInt(b.name.match(/\d+$/));
+          return numA - numB;
+        }
+      });
+    }
+    return setChildren;
+  }, [childFilesData])
 
   const toolbarContainerClasses = isChildFile ? iconContainerClassName('typeIconContainer') + ' childIconContainer': iconContainerClassName('typeIconContainer') 
 
